@@ -1,0 +1,8 @@
+# Files
+*~
+x.*
+a.out
+
+# Folders
+build/
+html/
