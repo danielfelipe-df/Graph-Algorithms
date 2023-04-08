@@ -14,9 +14,11 @@ int main(void)
 
   std::vector<size_t> sizes = {10, 10};
   Graph rectangularGrid(RectangularGrid, sizes);
+  rectangularGrid.exportCSV_adjacencyEdges("res/rectangularGrid.csv");
 
-  std::vector<int> vec = {0, 1, 2, 3, 4, 5};
-  Graph squareGrid2(TriangularGrid, vec);
+  std::vector<size_t> vec = {2, 3};
+  Graph triangularGrid(TriangularGrid, vec);
+  triangularGrid.exportCSV_adjacencyEdges("res/triangularGrid.csv");
 
   // Graph other(FuckYou, 78);
 
