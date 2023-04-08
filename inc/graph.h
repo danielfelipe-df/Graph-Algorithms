@@ -10,32 +10,37 @@
 #define GRAPH_H
 
 
-#include <eigen3/Eigen/Sparse>
+#include <constants.h>
+
 #include <string>
 #include <vector>
-#include <algorithm>
 #include <iostream>
 
 
-// Alias to adjacency matrix
-typedef Eigen::SparseMatrix<unsigned short int> adjacency;
-
-
+/**
+ * @class Graph
+ * @brief
+ */
 class Graph{
  private:
 
   /* Attributes */
 
-  /// Define the adjacency Matrix
-  adjacency adjacencyMatrix;
+  /// Number of nodes
+  size_t nodes;
 
-  /// Define the Graphs supported
-  const std::vector<std::string> typesGraph = {
-    "Square grid",
-    "Triangular grid",
-    "Erdos-Renyi",
-    "Barabasi-albert"
-  };
+  /// Edges (without weight) in the graph
+  std::vector<edgeA> adjacencyEdges;
+
+  /// Edges (with weight) in the graph
+  std::vector<edgeW> weightedEdges;
+
+  /// Define the adjacency Matrix
+  matrixA adjacencyMatrix;
+
+  /// Define the weighted Matrix
+  matrixW weightedMatrix;
+
 
 
  public:
@@ -44,16 +49,30 @@ class Graph{
    * @brief Constructor of the class Graph
    */
   template<typename attributesList>
-    Graph(std::string typeGraph, attributesList arguments){
-    // Check the typeGraph is in the vector
-    if(std::find(this->typesGraph.begin(), this->typesGraph.end(), typeGraph) != this->typesGraph.end()){
-      std::cout << "El grafo es de tipo" << typeGraph << std::endl;
-    }
+    Graph(supportedGraph graph, attributesList arguments){
+    // Check the graph is supported
+    switch (graph){
+    case RectangularGrid:
+      std::cout << "El grafo es de tipo" << graph << std::endl;
+      this->rectangular_grid(arguments[0], arguments[1]);
+      break;
+
+    case TriangularGrid:
+      std::cout << "El grafo es de tipo" << graph << std::endl;
+      break;
+
+    case ErdosRenyi:
+      std::cout << "El grafo es de tipo" << graph << std::endl;
+      break;
+
+    case BarabasiAlbert:
+      std::cout << "El grafo es de tipo" << graph << std::endl;
+      break;
 
     // If not is so throw an error
-    else{
+    default:
       std::string error_message("Please check the type of Graphs supported. '");
-      error_message += typeGraph;
+      error_message += graph;
       error_message += "' is not an aceptable option.\n";
       error_message += "File '";
       error_message += __FILE__;
@@ -62,7 +81,6 @@ class Graph{
       error_message += "' and line '";
       error_message += std::to_string(__LINE__);
       error_message += "'.";
-
 
       throw std::invalid_argument(error_message);
     }
@@ -74,6 +92,17 @@ class Graph{
    * @brief Destructor of the class Graph
    */
   ~Graph();
+
+
+
+  /* Functions */
+
+  /**
+   * @brief Constructor of a Rectangular Grid graph of size N*M
+   * @param N Number of nodes in a row
+   * @param M Number of nodes in a column
+   */
+  void rectangular_grid(size_t N, size_t M);
 };
 
 

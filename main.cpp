@@ -11,12 +11,14 @@
 
 int main(void)
 {
-  Graph squareGrid("Square grid", 5);
+
+  std::vector<size_t> sizes = {10, 10};
+  Graph rectangularGrid(RectangularGrid, sizes);
 
   std::vector<int> vec = {0, 1, 2, 3, 4, 5};
-  Graph squareGrid2("Triangular grid", vec);
+  Graph squareGrid2(TriangularGrid, vec);
 
-  Graph other("Fuck you", 78);
+  // Graph other(FuckYou, 78);
 
   return 0;
 }
