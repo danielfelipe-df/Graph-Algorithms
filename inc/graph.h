@@ -27,7 +27,7 @@ class Graph{
   /* Attributes */
 
   /// Number of nodes
-  size_t nodes;
+  size_t numberNodes;
 
   /// Edges (without weight) in the graph
   std::vector<edgeA> adjacencyEdges;
@@ -59,6 +59,7 @@ class Graph{
 
     case TriangularGrid:
       std::cout << "El grafo es de tipo" << graph << std::endl;
+      this->triangular_grid(arguments[0], arguments[1]);
       break;
 
     case ErdosRenyi:
@@ -94,7 +95,20 @@ class Graph{
   ~Graph();
 
 
+  /* Getter functions */
 
+  size_t get_numberNodes(){return this->numberNodes;};
+  std::vector<edgeA> get_adjacencyEdges(){return this->adjacencyEdges;};
+  std::vector<edgeW> get_weightedEdges(){return this->weightedEdges;};
+  matrixA get_adjacencyMatrix(){return this->adjacencyMatrix;};
+  matrixW get_weightedMatrix(){return this->weightedMatrix;};
+
+
+  /* Export CSV functions */
+  
+  void exportCSV_adjacencyEdges(std::string outputname);
+
+  
   /* Functions */
 
   /**
@@ -103,6 +117,13 @@ class Graph{
    * @param M Number of nodes in a column
    */
   void rectangular_grid(size_t N, size_t M);
+
+  /**
+   * @brief Constructor of a Triangular Grid graph of size N*M
+   * @param N Number of not-overlapped centered honeycombs in a row
+   * @param M Number of not-overlapped centered honeycombs in a column
+   */
+  void triangular_grid(size_t N, size_t M);
 };
 
 
