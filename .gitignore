@@ -2,6 +2,7 @@
 *~
 x.*
 a.out
+*.csv
 
 # Folders
 build/
