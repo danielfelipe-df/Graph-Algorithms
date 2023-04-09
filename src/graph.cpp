@@ -9,6 +9,10 @@
 #include <graph.h>
 
 #include <fstream>
+#include <boost/random/mersenne_twister.hpp>
+#include <boost/random/uniform_int_distribution.hpp>
+#include <algorithm>
+
 
 Graph::~Graph(){
 
@@ -67,14 +71,14 @@ void Graph::triangular_grid(size_t N, size_t M){
   // The regularity of HoneyCombs is given by 2*M+1.
   // This is the distance between different centers (overlapped HoneyCombs) in same column.
   size_t graphRegularity = 2*M + 1;
-  
+
   // Set the number of nodes
   this->numberNodes = (2*N)*graphRegularity + M;
 
   // Auxiliar variables for centered HoneyComb
   size_t centerPosition, upLeftPosition;
 
-  
+
   // Loop over the centers of over-lapped (in columns) HoneyCombs
   // Number of over-lapped (in columns) HoneyCombs comes from N rows plus N-1 intersections. So N + (N-1) = 2N-1
   for(size_t i=0; i!=(2*N-1); i++){
@@ -88,13 +92,13 @@ void Graph::triangular_grid(size_t N, size_t M){
 
       // Edge between Center and Up-Center corner
       this->adjacencyEdges.push_back(edgeA(centerPosition, centerPosition - graphRegularity, 1));
-      
+
       // Edge between Center and Up-Left corner
       this->adjacencyEdges.push_back(edgeA(centerPosition, upLeftPosition, 1));
 
       // Edge between Center and Up-Right corner
       this->adjacencyEdges.push_back(edgeA(centerPosition, upLeftPosition + 1, 1));
-      
+
       // Edge between Center and Down-Left corner
       this->adjacencyEdges.push_back(edgeA(centerPosition, upLeftPosition + graphRegularity, 1));
 
@@ -106,7 +110,7 @@ void Graph::triangular_grid(size_t N, size_t M){
     }
   }
 
-  
+
   // Loop to connect the top and bootom zone of the graph
   // The loop is over each column
   for(size_t j=0; j!=M; j++){
@@ -122,7 +126,7 @@ void Graph::triangular_grid(size_t N, size_t M){
     // Bottom Zone/region of the graph
     centerPosition = (2*N)*graphRegularity + j;
     upLeftPosition = (2*N-1)*graphRegularity + M + j;
-    
+
     // Edge between Center and Up-Center corner
     this->adjacencyEdges.push_back(edgeA(centerPosition, centerPosition - graphRegularity, 1));
 
@@ -139,8 +143,54 @@ void Graph::triangular_grid(size_t N, size_t M){
 
     // Locate the Up-Left corner (overlapped HoneyComb) position for virtual right extreme honeycomb
     upLeftPosition = (2*M) + i*graphRegularity;
-    
+
     // Edge between Up-Left and Down-Left corner
     this->adjacencyEdges.push_back(edgeA(upLeftPosition, upLeftPosition + graphRegularity, 1));
   }
+}
+
+
+void Graph::erdos_renyi_A(size_t N, size_t K){
+
+  // Throw error for unappropiate number of edges
+  if(K > (N*(N-1)/2)) throw std::invalid_argument("Número de vínculos demasiado grande para los nodos dados. erdos_renyi_A");
+
+  // Number of nodes is given in the argument
+  this->numberNodes = N;
+
+  // Reserve the number of edges to be stored
+  this->adjacencyEdges.reserve(K);
+
+  // Auxiliar variable to know edges position
+  std::vector<size_t> edgesPosition(K);
+  size_t i, j, k;
+
+  // Random number generator
+  boost::random::mt19937 generator;
+  boost::random::uniform_int_distribution<> edges_generator(0, N-1);
+
+  // Loop ends when all edges are find
+  while(adjacencyEdges.size() != K){
+
+    // Get the random edge
+    i = edges_generator(generator);
+    j = edges_generator(generator);
+
+    // Bacause the algorithm, only are accepted edges with i > j
+    if(i > j){
+
+      // Convert the edge from 2D (i, j) to 1D (k)
+      k = j + i*(i-1)/2;
+
+      // If the edge have not been saved, save it!
+      if(std::find(edgesPosition.begin(), edgesPosition.end(), k) == edgesPosition.end()){
+	edgesPosition.push_back(k);
+	this->adjacencyEdges.push_back(edgeA(i, j, 1));
+      }
+    }
+  }
+
+  // Clear auxiliar vector
+  edgesPosition.clear();
+  std::vector<size_t>().swap(edgesPosition);
 }

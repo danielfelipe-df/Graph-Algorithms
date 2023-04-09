@@ -64,6 +64,7 @@ class Graph{
 
     case ErdosRenyi:
       std::cout << "El grafo es de tipo" << graph << std::endl;
+      this->erdos_renyi_A(arguments[0], arguments[1]);
       break;
 
     case BarabasiAlbert:
@@ -105,10 +106,10 @@ class Graph{
 
 
   /* Export CSV functions */
-  
+
   void exportCSV_adjacencyEdges(std::string outputname);
 
-  
+
   /* Functions */
 
   /**
@@ -124,6 +125,13 @@ class Graph{
    * @param M Number of not-overlapped centered honeycombs in a column
    */
   void triangular_grid(size_t N, size_t M);
+
+  /**
+   * @brief Constructor of a Erdös-Renyí graph of N nodes and K edges using Algorithm A.
+   * @param N Number of nodes
+   * @param K Number of edges
+   */
+  void erdos_renyi_A(size_t N, size_t K);
 };
 
 
