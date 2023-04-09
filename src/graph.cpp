@@ -12,7 +12,9 @@
 
 Graph::~Graph(){
 
-
+  // Empty vectors
+  adjacencyEdges.clear();
+  weightedEdges.clear();
 }
 
 
