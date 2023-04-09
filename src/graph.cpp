@@ -59,16 +59,6 @@ void Graph::rectangular_grid(size_t N, size_t M){
       this->adjacencyEdges.push_back(edgeA(i*M + j, (i+1)*M + j, 1));
     }
   }
-
-
-  // Resize adjacency according to number of nodes in the graph
-  this->adjacencyMatrix.resize(this->numberNodes, this->numberNodes);
-
-  // And save the edges in the adjacency matrix
-  this->adjacencyMatrix.setFromTriplets(this->adjacencyEdges.begin(), this->adjacencyEdges.end());
-
-  std::cout << this->adjacencyMatrix.rows() << " ";
-  std::cout << this->adjacencyMatrix.cols() << std::endl;
 }
 
 
