@@ -18,7 +18,9 @@ Graph::~Graph(){
 
   // Empty vectors
   adjacencyEdges.clear();
+  std::vector<size_t>().swap(adjacencyEdges);
   weightedEdges.clear();
+  std::vector<size_t>().swap(weightedEdges);
 }
 
 
