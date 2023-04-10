@@ -11,16 +11,18 @@
 #include <fstream>
 #include <boost/random/mersenne_twister.hpp>
 #include <boost/random/uniform_int_distribution.hpp>
+#include <boost/random/uniform_01.hpp>
 #include <algorithm>
+#include <math.h>
 
 
 Graph::~Graph(){
 
   // Empty vectors
   adjacencyEdges.clear();
-  std::vector<size_t>().swap(adjacencyEdges);
+  std::vector<edgeA>().swap(adjacencyEdges);
   weightedEdges.clear();
-  std::vector<size_t>().swap(weightedEdges);
+  std::vector<edgeW>().swap(weightedEdges);
 }
 
 
@@ -155,7 +157,8 @@ void Graph::triangular_grid(size_t N, size_t M){
 void Graph::erdos_renyi_A(size_t N, size_t K){
 
   // Throw error for unappropiate number of edges
-  if(K > (N*(N-1)/2)) throw std::invalid_argument("Número de vínculos demasiado grande para los nodos dados. erdos_renyi_A");
+  if(K > (N*(N-1)/2))
+    throw std::invalid_argument("Número de vínculos demasiado grande para los nodos dados. erdos_renyi_A");
 
   // Number of nodes is given in the argument
   this->numberNodes = N;
@@ -169,14 +172,14 @@ void Graph::erdos_renyi_A(size_t N, size_t K){
 
   // Random number generator
   boost::random::mt19937 generator;
-  boost::random::uniform_int_distribution<> edges_generator(0, N-1);
+  boost::random::uniform_int_distribution<> edgesGenerator(0, N-1);
 
   // Loop ends when all edges are find
   while(adjacencyEdges.size() != K){
 
     // Get the random edge
-    i = edges_generator(generator);
-    j = edges_generator(generator);
+    i = edgesGenerator(generator);
+    j = edgesGenerator(generator);
 
     // Bacause the algorithm, only are accepted edges with i > j
     if(i > j){
@@ -195,4 +198,40 @@ void Graph::erdos_renyi_A(size_t N, size_t K){
   // Clear auxiliar vector
   edgesPosition.clear();
   std::vector<size_t>().swap(edgesPosition);
+}
+
+
+void Graph::erdos_renyi_B(size_t N, double p){
+
+// Throw error for unappropiate value of p
+  if((p < 0) and (p > 1))
+    throw std::invalid_argument("Recuerde que la probabilidad de vinculacion p es entre 0 y 1. erdos_renyi_B");
+
+  // Number of nodes is given in the argument
+  this->numberNodes = N;
+
+  // Auxiliar variable to know edges position
+  size_t i, j, maxNumberEdges;
+
+  // Calculate the maximum number of edges
+  maxNumberEdges = (N+1)*(N-2)/2;
+
+  // Random number generator
+  boost::random::mt19937 generator;
+  boost::random::uniform_01<> randomVariable;
+
+  // Loop ends when all edges have been checked
+  for(size_t k=0; k<maxNumberEdges; k++){
+
+    // If the random number is less than connection probability, connect them!
+    if(randomVariable(generator) < p){
+
+      // Get the nodes of the edge
+      i = std::ceil(0.5*(std::sqrt(1.0 + 8.0*(k+1)) - 1.0));
+      j = k - i*(i-1)/2;
+
+      // Save the edge
+      this->adjacencyEdges.push_back(edgeA(i, j, 1));
+    }
+  }
 }

@@ -20,9 +20,13 @@ int main(void)
   Graph triangularGrid(TriangularGrid, vec);
   triangularGrid.exportCSV_adjacencyEdges("res/triangularGrid.csv");
 
-  std::vector<size_t> erdosRenyiA = {100, 300};
-  Graph erdosRenyiGraph(ErdosRenyi, erdosRenyiA);
-  erdosRenyiGraph.exportCSV_adjacencyEdges("res/erdosRenyiA.csv");
+  std::vector<size_t> erdosRenyiA = {100, 396};
+  Graph erdosRenyiGraphA(ErdosRenyiA, erdosRenyiA);
+  erdosRenyiGraphA.exportCSV_adjacencyEdges("res/erdosRenyiA.csv");
+
+  std::vector<float> erdosRenyiB = {100, 0.08};
+  Graph erdosRenyiGraphB(ErdosRenyiB, erdosRenyiB);
+  erdosRenyiGraphB.exportCSV_adjacencyEdges("res/erdosRenyiB.csv");
 
   return 0;
 }

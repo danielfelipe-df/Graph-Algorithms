@@ -69,6 +69,7 @@ class Graph{
 
     case ErdosRenyiB:
       std::cout << "El grafo es de tipo" << graph << std::endl;
+      this->erdos_renyi_B(arguments[0], arguments[1]);
       break;
 
     case BarabasiAlbert:
@@ -136,6 +137,13 @@ class Graph{
    * @param K Number of edges
    */
   void erdos_renyi_A(size_t N, size_t K);
+
+  /**
+   * @brief Constructor of a Erdös-Renyí graph of N nodes and K edges using Algorithm B.
+   * @param N Number of nodes
+   * @param p Probability an edge exists
+   */
+  void erdos_renyi_B(size_t N, double p);
 };
 
 
