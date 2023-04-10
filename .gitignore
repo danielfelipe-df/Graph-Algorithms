@@ -3,6 +3,7 @@
 x.*
 a.out
 *.csv
+*.gephi
 
 # Folders
 build/
