@@ -62,9 +62,13 @@ class Graph{
       this->triangular_grid(arguments[0], arguments[1]);
       break;
 
-    case ErdosRenyi:
+    case ErdosRenyiA:
       std::cout << "El grafo es de tipo" << graph << std::endl;
       this->erdos_renyi_A(arguments[0], arguments[1]);
+      break;
+
+    case ErdosRenyiB:
+      std::cout << "El grafo es de tipo" << graph << std::endl;
       break;
 
     case BarabasiAlbert:

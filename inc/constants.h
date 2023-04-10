@@ -14,7 +14,8 @@
 enum supportedGraph{
   RectangularGrid,
   TriangularGrid,
-  ErdosRenyi,
+  ErdosRenyiA,
+  ErdosRenyiB,
   BarabasiAlbert
 };
 
