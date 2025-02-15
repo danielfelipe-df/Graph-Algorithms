@@ -19,7 +19,7 @@ set(CMAKE_CXX_FLAGS "-Wall -Werror -g -fsanitize=address -fsanitize=leak")
 set(TARGET_NAME graphAlgorithms)
 
 # Add the executable
-add_executable(${TARGET_NAME} main.cpp)
+add_executable(${TARGET_NAME} examples/main.cpp)
 
 # Add the dir of the headers
 include_directories(${CMAKE_SOURCE_DIR}/inc)
